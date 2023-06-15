@@ -1,0 +1,155 @@
+﻿@model babyShield.Models.prescription
+
+@{
+    ViewData["Title"] = "Add Prescription";
+    Layout = "~/Views/Shared/_Doctor.cshtml";
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include DataTables library -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+<aside class="left-sidebar" data-sidebarbg="skin6">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                       href="index.html" aria-expanded="false">
+                        <i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                       href="pages-profile.html" aria-expanded="false">
+                        <i class="mdi mdi-account-network"></i><span class="hide-menu">Profile</span>
+                    </a>
+                </li>
+
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                       href="starter-kit.html" aria-expanded="false">
+                        <i class="mdi mdi-file"></i><span class="hide-menu">Creat Appointment</span>
+                    </a>
+                </li>
+
+
+            </ul>
+
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
+<!-- ============================================================== -->
+<!-- End Left Sidebar - style you can find in sidebar.scss  -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- Page wrapper  -->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="page-breadcrumb">
+        <div class="row align-items-center">
+            <div class="col-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 d-flex align-items-center">
+                        <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Patient </li>
+                    </ol>
+                </nav>
+                <h1 class="mb-0 fw-bold">Add Prescription</h1>
+            </div>
+            
+        </div>
+    </div>
+
+
+    
+
+
+            <form id="prescriptionForm">
+                <div class="form-group">
+                    <label for="patientName">Patient Name</label>
+                    <input type="text" class="form-control" id="patientName" name="PatientName" value="@Model.patient.pateintName" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="medicalCondition">Medical Condition</label>
+                    <input type="text" class="form-control" id="medicalCondition" name="MedicalCondition" required>
+                </div>
+                <div class="form-group">
+                    <label for="medication">Medication</label>
+                    <input type="text" class="form-control" id="medication" name="Medication" required>
+                </div>
+                <div class="form-group">
+                    <label for="dosage">Dosage</label>
+                    <input type="text" class="form-control" id="dosage" name="Dosage" required>
+                </div>
+                <div class="form-group">
+                    <label for="frequency">Frequency</label>
+                    <input type="text" class="form-control" id="frequency" name="Frequency" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Prescription</button>
+            </form>
+
+  
+</div>
+
+
+
+
+
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Handle form submission
+            $("#prescriptionForm").submit(function (event) {
+                event.preventDefault();
+
+                // Create a data object with the form values
+                var data = {
+                    patientId: @Model.patient.Id,
+                    medicalCondition: $("#medicalCondition").val(),
+                    medication: $("#medication").val(),
+                    dosage: $("#dosage").val(),
+                    frequency: $("#frequency").val(),
+                };
+
+                // Perform the AJAX request to the API endpoint
+                $.ajax({
+                    url: "/Api/Doctor/addPrescription",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        // Handle success response
+                        console.log(response);
+
+                        // Display a success message using Bootbox
+                        bootbox.alert("Prescription added successfully.", function () {
+                            // Optionally, perform any additional actions after the user closes the alert
+                        });
+                    },
+                    error: function (error) {
+                        // Handle error response
+                        console.log(error);
+                        // Optionally, display an error message to the user
+                    }
+                });
+            });
+        });
+    </script>
+}

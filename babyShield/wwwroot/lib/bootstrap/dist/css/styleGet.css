@@ -1,0 +1,120 @@
+﻿
+p {
+    font-size: 16px;
+    color: #333;
+    display: block; /* set display to block */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header span::first-letter {
+    color: rgb(7,102,136);
+    font-size: 1.5rem;
+}
+
+
+
+
+
+/* p::selection {
+background-color: rgb(160, 14, 111);
+color: black;
+} */
+img {
+    float: left;
+    width: 300px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+
+
+.main-content {
+    margin: 50px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    /* background-color:#aaa ; */
+    border-radius: 10px; /* 10 px --> Square*/
+    box-shadow: 23px 23px 20px rgba(0, 0, 0, 0.2);
+    /* The border-width Property */
+    border-style: solid;
+    border-width: medium;
+    border-color: #3ba9e1
+}
+
+
+
+button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: #1d0a61;
+    color: #fff;
+    font-size: 23px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+
+
+    button:hover {
+        background-color: #7389ec;
+    }
+
+
+
+/* Media queries */
+@media screen and (max-width: 768px) {
+    img {
+        float: none;
+        margin: 0 auto;
+        display: block;
+        width: 80%;
+    }
+}
+
+p::first-letter {
+    color: rgb(7,102,136);
+    font-size: 1.5rem;
+    border-left: 6px solid rgb(7,102,136); /* Shorthand Border Property */
+}
+
+
+
+/* .animated-text {
+animation: blink 5s infinite alternate;
+}
+
+ 
+
+@keyframes blink {
+from { opacity: 0.2; }
+to   { opacity: 1;   }
+} */
+.animated-text {
+    animation: slide-in 1s ease-in-out forwards;
+    opacity: 0;
+}
+
+
+
+@keyframes slide-in {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+

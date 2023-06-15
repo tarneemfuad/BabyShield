@@ -1,0 +1,62 @@
+﻿@model babyShield.ViewModel.patientViewModel
+@{
+    ViewData["Title"] = "our Doctor";
+    Layout = "~/Views/Shared/_Doctor.cshtml";
+}
+
+<html>
+
+<body>
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div class="page-breadcrumb">
+            <div class="row align-items-center">
+                <div >
+                    <div>
+                        <table class="table mb-0 table-hover align-middle text-nowrap searchable" id="clinicInfo">
+                            <thead>
+                                <tr>
+                                    <th>Doctor Name</th>
+@*                                    <th>phone number</th>
+*@                                    <th>specialest</th>
+                                    <th>clinic name</th>
+                                   
+                                    
+                            </thead>
+                            <tbody>
+
+                                @foreach (var doctor in Model.doctors)
+                                {<tr>
+                                <td>@doctor.doctorName</td>
+@*                                <td>@doctor.phoneNumber</td>
+*@                                <td>@doctor.specialest</td>
+                                <td>@doctor.clinic.clinicName</td>
+                                       
+                                    </tr>
+                                }
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+</body>
+</html>
+@section scripts {
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#clinicInfo').DataTable({
+                searching: true
+            });
+        });
+    </script>
+}

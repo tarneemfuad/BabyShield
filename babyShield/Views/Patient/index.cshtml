@@ -1,0 +1,87 @@
+﻿@model babyShield.Models.Patient
+@{
+	ViewData["Title"] = "patient home page";
+	Layout = "~/Views/Shared/_Doctor.cshtml";
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>clinic</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="~/patient/styleHome.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.6.3/css/all.min.css">
+</head>
+
+<body>
+	<header>
+		<div class="container">
+
+			<div class="container">
+				<div class="navbar-left">
+
+					
+
+					<span class="navbar-brand-name"><h3>@Model.pateintName</h3></span>
+				</div>
+
+			</div>
+	</header>
+
+
+	<section class="services">
+		<div class="container">
+			<h2 style="color: #616161;">Services</h2>
+			<ul>
+				<li>
+					<a href="~/patient/ourDoctor">
+						<img src="~/patient/image/2.jpg" alt="ourDoctor">
+					</a>
+					<h4>Our Doctor</h4>
+
+				</li>
+				<li>
+					<a href="~/patient/bookAppointment/@Model.Id">
+						<img src="~/patient/image/3.jpg" alt="bookAppointment">
+					</a>
+					<h4>Book Appointment</h4>
+
+				</li>
+				
+				<li>
+					<a href="~/patient/viewAppointment/@Model.Id">
+						<img src="~/patient/image/4.jpg" alt="viewAppointment">
+					</a>
+					<h4>view Appointment</h4>
+
+				</li>
+				<li>
+					<a href="~/patient/viewVaccinePrescription/@Model.Id">
+						<img src="~/patient/image/9.jpg" alt="viewVaccinePrescription">
+					</a>
+					<h4>View vaccine and prescription</h4>
+
+				</li>
+				
+			</ul>
+		</div>
+	</section>
+	<section class="contact">
+		<div class="container">
+			<h2 style="color: #616161;">Contact Us</h2>
+			<p>You can reach out to our team through the following channels:</p>
+			<ul>
+				<li>
+					<i class="fa-brands fa-whatsapp fa-xl" style="color: #17e708;"></i><a href="https://wa.me/962123456789">+962123456789</a>
+					
+				</li>
+				<li>
+					<i class="fa-brands fa-facebook-messenger" style="color: #075ced;"></i><a href="https://m.me/100012711704368">ترنيم الدراس</a>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+</body>
+<script src="https://kit.fontawesome.com/82a5a31272.js" crossorigin="anonymous"></script>
+</html>

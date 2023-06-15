@@ -1,0 +1,100 @@
+﻿@model babyShield.ViewModel.patientViewModel
+@{
+    ViewData["Title"] = "our Doctor";
+    Layout = "~/Views/Shared/_Doctor.cshtml";
+}
+
+<html>
+
+<body>
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div class="page-breadcrumb">
+            <div class="row align-items-center">
+                <div>
+                    <div>
+                        <table class="table mb-0 table-hover align-middle text-nowrap searchable" id="vaccineInfo">
+                            <thead>
+                                <tr>
+                                    <th>Vaccine Name</th>
+                                    <th>taken Date</th>
+                                    <th>wieght</th>
+                                    <th>hieght</th>
+                                    <th>head Radios</th>
+
+                            </thead>
+                            <tbody>
+
+                                @foreach (var vacc in Model.vaccine)
+                                {
+                                    <tr>
+                                        <td>@vacc.vaccine.vaccineName</td>
+                                        <td>@vacc.vaccineDate</td>
+                                        <td>@vacc.width</td>
+                                        <td>@vacc.hight</td>
+                                        <td>@vacc.headRadios</td>
+                                       
+
+                                    </tr>
+                                }
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                  
+                </div>
+                <div>
+                    <table class="table mb-0 table-hover align-middle text-nowrap searchable" id="prescriptionInfo">
+                        <thead>
+                            <tr>
+                                <th>medicalCondition</th>
+                                <th>medication</th>
+                                <th>dosage</th>
+                                <th>frequency</th>
+                                <th>datePrescribed</th>
+
+
+                        </thead>
+                        <tbody>
+
+                            @foreach (var pre in Model.prescription)
+                            {
+                                <tr>
+                                    <td>@pre.medicalCondition</td>
+                                    <td>@pre.medication</td>
+                                    <td>@pre.dosage</td>
+                                    <td>@pre.frequency</td>
+                                    <td>@pre.datePrescribed</td>
+
+
+                                </tr>
+                            }
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+</body>
+</html>
+@section scripts {
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#vaccineInfo').DataTable({
+                searching: true
+            }); $('#prescriptionInfo').DataTable({
+                searching: true
+            });
+        });
+    </script>
+}
+

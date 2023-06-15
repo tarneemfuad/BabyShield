@@ -1,0 +1,169 @@
+﻿@model babyShield.ViewModel.VaccineViewModel
+@{
+    ViewData["Title"] = "Vaccine";
+     Layout = "~/Views/Shared/_Doctor.cshtml";
+}
+
+
+
+
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div class="page-breadcrumb">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0 d-flex align-items-center">
+                                <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Patient </li>
+                            </ol>
+                        </nav>
+                        <h1 class="mb-0 fw-bold">Pattient Info</h1>
+                    </div>
+                    <div class="col-6">
+                       
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Table -->
+            <!-- ============================================================== -->
+            <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- title -->
+                    <div class="d-md-flex">
+                        <div>
+                            <h4 class="card-title">Vaccine</h4>
+                            <h5 class="card-subtitle">Vaccine Info</h5>
+                        </div>
+
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0 table-hover align-middle text-nowrap" id="VaccineInfo">
+                            <thead>
+                                <tr>
+                                    <th>Vaccine Name</th>
+                                    <th>Vaccine Country</th>
+                                    <th>Does Number</th>
+                                    <th>Recomend Age</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var vaccine in Model.vaccines)
+                                {
+                                    <tr>
+                                        <td>@vaccine.vaccineName</td>
+                                        <td>@vaccine.vaccineCountry</td>
+                                        <td>@vaccine.doesNumber</td>
+                                        <td>@vaccine.RecomendAge</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                    
+                    
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- column -->
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- title -->
+
+                </div>
+
+            </div>
+        </div>
+              
+           
+          
+
+
+                <!-- title -->
+          <div class="table-responsive">
+            <div class="d-flex align-items-center">
+                <div class="m-r-10">
+                    <a class="btn btn-circle d-flex btn-info text-white">EA</a>
+                </div>
+                <div class="">
+                    <h4 class="m-b-0 font-16">@Model.patient.pateintName</h4>
+                </div>
+            </div>
+                    <table class="table mb-0 table-hover align-middle text-nowrap">
+                        <thead>
+                            <tr>
+                                
+                                <th class="border-top-0">Vac names  </th>
+                                <th class="border-top-0">vaccineDate </th>
+                                <th class="border-top-0">Hight</th>
+                                <th class="border-top-0">weight</th>
+                                <th class="border-top-0">headRadios </th>
+                                
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                       
+                        @foreach(var vacP in Model.patientVaccine)
+                        {
+                        <tr>
+                               <td>@vacP.vaccine.vaccineName</td>
+                               <td>@vacP.vaccineDate.Date</td>
+                               <td>@vacP.hight</td>
+                               <td>@vacP.width</td>
+                               <td>@vacP.headRadios</td>
+                        </tr>
+                            }
+                        
+                       
+                            
+
+                        </tbody>
+                    </table>
+            <a href="~/Doctor/addVaccine/@Model.patient.Id" class=" js-view  btn btn-outline-primary" >Add vaccine</a>
+            <a href="~/Doctor/addPrescription/@Model.patient.Id" class=" js-view  btn btn-outline-primary">Add prescription</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Table -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Recent comment and chats -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Recent comment and chats -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->

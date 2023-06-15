@@ -1,0 +1,203 @@
+﻿@model babyShield.ViewModel.patientViewModel
+@{
+    ViewData["Title"] = "bookAppointment";
+    Layout = "~/Views/Shared/_Doctor.cshtml";
+}
+<div class="page-wrapper">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="page-breadcrumb">
+        <div class="row align-items-center">
+            <div class="col-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 d-flex align-items-center">
+                        <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+                        <li class="breadcrumb-item active" aria-current="page">View Appointment</li>
+                    </ol>
+                </nav>
+                <h1 class="mb-0 fw-bold">@Model.Patient.pateintName</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-body">
+                            <!-- title -->
+                            <div class="d-md-flex">
+                                <div>
+                                    <h4 class="card-title">Create Appointment</h4>
+                                </div>
+                            </div>
+                            <form id="appointmentForm">
+                                <div class="row">
+                                    <div>
+                                        <label for="clinic">Clinic</label>
+                                        <select id="clinic">
+                                            <option value="">Select Clinic</option>
+                                            <!-- Add options dynamically based on your data -->
+                                            @foreach (var clinic in Model.clinics)
+                                            {
+                                                <option value="@clinic.Id">@clinic.clinicName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="doctor">Doctor</label>
+                                        <select id="doctor">
+                                            <option value="">Select Doctor</option>
+                                        </select>
+                                        <br />
+                                        <br />
+                                        <div>
+                                            <label for="time" class="max-h-4xl">Date and Time</label>
+                                            <select id="time" class="form-control">
+                                                <option value="">Select Date and Time</option>
+                                            </select>
+                                            <br />
+                                            <br />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Event handler for clinic selection change
+            $("#clinic").change(function () {
+                var selectedClinicId = $(this).val();
+
+                // Make an AJAX request to retrieve the doctors for the selected clinic
+                $.ajax({
+                    url: "/Api/Patient/" + selectedClinicId + "/doctors",
+                    method: "GET",
+                    success: function (data) {
+                        populateDoctors(data.doctors);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log("Error retrieving doctors: " + errorThrown);
+                        // Handle the error appropriately
+                    }
+                });
+            });
+
+            // Event handler for doctor selection change
+            $("#doctor").change(function () {
+                var selectedClinicId = $("#clinic").val();
+                var selectedDoctorId = $(this).val();
+
+                // Make an AJAX request to retrieve the available appointments for the selected clinic and doctor
+                $.ajax({
+                    url: "/Api/Patient/" + selectedClinicId + "/doctors/" + selectedDoctorId + "/appointments",
+                    method: "GET",
+                    success: function (data) {
+                        populateTimes(data.appointments);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log("Error retrieving appointments: " + errorThrown);
+                        // Handle the error appropriately
+                    }
+                });
+            });
+
+            // Populate the doctors dropdown
+            function populateDoctors(doctors) {
+                var $doctorSelect = $("#doctor");
+                $doctorSelect.empty();
+                $doctorSelect.append($('<option></option>').val('').text('Select Doctor'));
+
+                if (doctors && doctors.length > 0) {
+                    doctors.forEach(function (doctor) {
+                        $doctorSelect.append($('<option></option>').val(doctor.id).text(doctor.doctorName));
+                    });
+                }
+            }
+
+            // Populate the times dropdown
+            function populateTimes(appointments) {
+                var $timeSelect = $("#time");
+                $timeSelect.empty();
+                $timeSelect.append($('<option></option>').val('').text('Select Date and Time'));
+
+                if (appointments && appointments.length > 0) {
+                    var availableTimes = appointments.filter(function (appointment) {
+                        return !appointment.isBooked;
+                    });
+
+                    if (availableTimes.length > 0) {
+                        availableTimes.forEach(function (time) {
+                            // Format the date and time using Moment.js
+                            var formattedDateTime = moment(time.dateTime).format('YYYY-MM-DD HH:mm:ss');
+                            $timeSelect.append($('<option></option>').val(time.id).text(formattedDateTime));
+                        });
+                    } else {
+                        $timeSelect.append($('<option></option>').val('').text('No available times'));
+                    }
+                } else {
+                    $timeSelect.append($('<option></option>').val('').text('No available times'));
+                }
+            }
+
+
+            // Submit the appointment form
+            $("#appointmentForm").submit(function (e) {
+                e.preventDefault();
+
+                var selectedClinicId = parseInt($("#clinic").val());
+                var selectedDoctorId = parseInt($("#doctor").val());
+                var Id =parseInt($("#time").val());
+
+                // Parse the selected date and time string
+                
+
+                console.log("selectedClinicId:", selectedClinicId);
+                console.log("selectedDoctorId:", selectedDoctorId);
+                console.log("selectedDateTime:", Id);
+
+
+
+                var data = {
+                    
+                    doctorId: selectedDoctorId,
+                    patientId: @Model.Patient.Id,
+                    Id: Id
+                };
+
+                console.log("data:", data);
+
+                $.ajax({
+                    url: "/Api/Patient/UpdateAppointment",
+                    method: "PUT",
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    success: function (response) {
+                        console.log("Appointment updated successfully");
+                        location.reload();
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log("Error updating appointment: " + errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</div>

@@ -1,0 +1,162 @@
+﻿@model babyShield.ViewModel.DoctorViewModel
+@{
+    ViewData["Title"] = "Add Appointment";
+    Layout = "~/Views/Shared/_Doctor.cshtml";
+}
+<div class="page-wrapper">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="page-breadcrumb">
+        <div class="row align-items-center">
+            <div class="col-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 d-flex align-items-center">
+                        <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+                        <li class="breadcrumb-item active" aria-current="page">View Appointment </li>
+                    </ol>
+                </nav>
+                <h1 class="mb-0 fw-bold">@Model.doctor.doctorName</h1>
+            </div>
+
+        </div>
+    </div>
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                        <div class="card-body">
+                            <!-- title -->
+                            <div class="d-md-flex">
+                                <div>
+                                    <h4 class="card-title">create Appointment</h4>
+                                </div>
+
+                            </div>
+                    <form id="appointmentForm">
+                               
+                        <div clas="row">
+                            <div class="col-md-6">
+                                      
+                                <label for="Date" class="max-h-4xl">Date</label>
+                                <input type="date" class="form-control" id="Date">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="Start time" class="max-h-4xl">time</label>
+                                <input type="time" class="form-control" id="starttime">
+                            </div>
+                      
+                            <div><button type="submit" class="btn btn-primary ">Submit</button></div>
+
+                        </div>
+                    </form>
+                </div>
+                    <div class="col-12">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+        <div class="card">
+            <div class="card-body">
+                <!-- title -->
+                <div class="d-md-flex">
+                    <div>
+                        <h4 class="card-title">Appointment Info</h4>
+                    </div>
+
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0 table-hover align-middle text-nowrap" id="VaccineInfo">
+                        <thead>
+                            <tr>
+                                <th>clinic Name</th>
+                                <th>isBooked</th>
+                                <th>patient Name</th>
+                                <th>date</th>
+                                <th>time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var app in Model.appointments)
+                            {
+                                <tr>
+
+                                    <td>@app.Doctor.clinic.clinicName</td>
+                                    <td>@app.isBooked</td>
+                                    <td>@app.Patient?.pateintName</td>
+                                    <td>@app.dateTime.Date</td>
+                                    <td>@app.dateTime.TimeOfDay</td>
+                                </tr>
+
+                            }
+                        </tbody>
+
+
+                    </table>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+</div>
+    @section scripts{
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#dataTable').DataTable();
+
+                // Appointment form submission
+                $("#appointmentForm").submit(function (event) {
+                    event.preventDefault();
+                    var date = $("#Date").val();
+                    var time = $("#starttime").val();
+                    var isBooked = false;
+                    var DoctorId= @Model.doctor.Id;
+                    var dateTime = date + " " + time + ":00";
+                    dateTime = moment(dateTime, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DDTHH:mm:ss");
+
+
+                    // Perform the AJAX request to create the appointment
+                    $.ajax({
+                        url: "/Api/Doctor/CreateAppointment",
+                        method: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            DoctorId: DoctorId,
+                            dateTime: dateTime,
+                           
+                            isBooked: isBooked
+                        }),
+                        success: function (response) {
+                            // Handle success response
+                            console.log(response);
+
+                            // Update the table with the new appointment
+                           location.reload();
+                        }
+                    });
+                });
+            });
+        </script>
+    }
+
+
